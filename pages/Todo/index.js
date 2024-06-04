@@ -1,8 +1,8 @@
 const taskKey = '@tasks';
 
-// Função para adicionar tarefa
+
 function addTask(event) {
-  event.preventDefault(); // Evita o recarregamento da página
+  event.preventDefault(); 
   const taskId = new Date().getTime();
   const taskList = document.querySelector('#taskList');
 
@@ -18,11 +18,12 @@ function addTask(event) {
       <h2>${taskTitle}</h2>
       <p>${taskDescription}</p>
       <button class="edit-btn" title="Editar tarefa" onclick="openEditDialog(${taskId})">✏️</button>
+      <button class="delete-btn" title="Excluir tarefa" onclick="removeTask(${taskId})">❌</button>
   `;
 
   taskList.appendChild(li);
 
-  // Salvar tarefas no localStorage
+
   const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
   tasks.push({ id: taskId, title: taskTitle, description: taskDescription });
   localStorage.setItem(taskKey, JSON.stringify(tasks));
@@ -30,7 +31,7 @@ function addTask(event) {
   form.reset();
 }
 
-// Função para carregar tarefas do localStorage ao recarregar a página
+
 window.addEventListener('DOMContentLoaded', () => {
   const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
   const taskList = document.querySelector('#taskList');
@@ -40,12 +41,12 @@ window.addEventListener('DOMContentLoaded', () => {
         <h2>${task.title}</h2>
         <p>${task.description}</p>
         <button class="edit-btn" title="Editar tarefa" onclick="openEditDialog(${task.id})">✏️</button>
+        <button class="delete-btn" title="Excluir tarefa" onclick="removeTask(${task.id})">❌</button>
       </li>
     `)
     .join('');
 });
 
-// Função para abrir o dialog de edição
 function openEditDialog(taskId) {
   const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
   const task = tasks.find(task => task.id === taskId);
@@ -59,12 +60,10 @@ function openEditDialog(taskId) {
   }
 }
 
-// Função para fechar o dialog de edição
 function closeEditDialog() {
   document.querySelector('#editTaskDialog').close();
 }
 
-// Função para salvar a edição
 function saveEdit(event) {
   event.preventDefault();
   const taskId = document.querySelector('#editTaskId').value;
@@ -79,11 +78,21 @@ function saveEdit(event) {
     tasks[taskIndex].description = taskDescription;
     localStorage.setItem(taskKey, JSON.stringify(tasks));
 
-    // Atualizar a tarefa na interface
     const li = document.getElementById(taskId);
     li.querySelector('h2').innerText = taskTitle;
     li.querySelector('p').innerText = taskDescription;
 
     closeEditDialog();
+  }
+}
+
+function removeTask(taskId) {
+  const tasks = JSON.parse(localStorage.getItem(taskKey)) || [];
+  const updatedTasks = tasks.filter(task => task.id !== taskId);
+  localStorage.setItem(taskKey, JSON.stringify(updatedTasks));
+
+  const li = document.getElementById(taskId);
+  if (li) {
+    li.remove();
   }
 }
