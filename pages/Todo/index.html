@@ -20,12 +20,14 @@
             id="title"
             required
             placeholder="Informe o título da tarefa"
+            class="green-text"
           />
           <textarea
             id="description"
             name="description"
             required
             placeholder="Informe a descrição da tarefa"
+            class="descri-tarefa"
           ></textarea>
           <button type="submit">Salvar Tarefa</button>
         </form>
@@ -39,22 +41,25 @@
     <!-- Dialog para editar tarefas -->
     <dialog id="editTaskDialog">
       <form id="editTaskForm" onsubmit="saveEdit(event)">
-        <input type="hidden" id="editTaskId" />
-        <input
-          type="text"
-          id="editTitle"
-          required
-          placeholder="Informe o título da tarefa"
-        />
-        <textarea
-          id="editDescription"
-          required
-          placeholder="Informe a descrição da tarefa"
-        ></textarea>
-        <button type="submit">Editar</button>
-        <button type="button" onclick="closeEditDialog()">Cancelar</button>
+          <input type="hidden" id="editTaskId" />
+          <input
+              type="text"
+              id="editTitle"
+              required
+              placeholder="Informe o título da tarefa"
+              class="green-border"  
+          />
+          <textarea
+              id="editDescription"
+              required
+              placeholder="Informe a descrição da tarefa"
+          ></textarea>
+          <div class="button-group">
+              <button type="submit">Editar</button>
+              <button type="button" onclick="closeEditDialog()">Cancelar</button>
+          </div>
       </form>
-    </dialog>
+  </dialog>
 
     <script src="./index.js"></script>
     <script src="../../footer-counter.js"></script>
